@@ -68,6 +68,11 @@ public class MenuHome extends javax.swing.JFrame {
         jMenuBar1.add(menuListSV);
 
         itemTaoSv.setText("Tạo sinh viên");
+        itemTaoSv.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                itemTaoSvMouseClicked(evt);
+            }
+        });
         jMenuBar1.add(itemTaoSv);
 
         jMenu1.setText("Tạo lớp");
@@ -80,6 +85,11 @@ public class MenuHome extends javax.swing.JFrame {
         jMenuBar1.add(jMenu4);
 
         jMenu5.setText("Đăng xuất");
+        jMenu5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu5MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu5);
 
         setJMenuBar(jMenuBar1);
@@ -110,6 +120,18 @@ public class MenuHome extends javax.swing.JFrame {
         DanhSachSinhVien ds = new DanhSachSinhVien();
         ds.setVisible(true);
     }//GEN-LAST:event_menuListSVMouseClicked
+
+    private void itemTaoSvMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTaoSvMouseClicked
+        // TODO add your handling code here:
+        
+         TaoSinhVien taoSv = new TaoSinhVien();
+        taoSv.setVisible(true);
+    }//GEN-LAST:event_itemTaoSvMouseClicked
+
+    private void jMenu5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu5MouseClicked
+        // TODO add your handling code here:
+        this.setVisible(false);
+    }//GEN-LAST:event_jMenu5MouseClicked
 
     /**
      * @param args the command line arguments

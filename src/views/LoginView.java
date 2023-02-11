@@ -37,6 +37,7 @@ public class LoginView extends javax.swing.JFrame {
         txtTenDangNhap = new javax.swing.JTextField();
         txtMatKhau = new javax.swing.JTextField();
         btLogin = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -54,12 +55,17 @@ public class LoginView extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/img/login3.png"))); // NOI18N
+        jLabel4.setText("jLabel4");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(182, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
@@ -86,9 +92,13 @@ public class LoginView extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel3)
                     .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(46, 46, 46)
+                .addGap(48, 48, 48)
                 .addComponent(btLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(64, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -100,27 +110,34 @@ public class LoginView extends javax.swing.JFrame {
 //        menuHome.setVisible(true);
 //        this.setVisible(false);
 
-        try {
-            Connect connect = new Connect();
-            Connection con = connect.getConnection();
-            String sql = "SELECT * from dangnhap where MaGV= 'GV01' and MatKhau= '1234567'";
-            PreparedStatement pst = con.prepareStatement(sql);
-            pst.setString(1, txtTenDangNhap.getText());
-            pst.setString(2, txtMatKhau.getText());
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-               JOptionPane.showMessageDialog(null, "Dang nhap thanh cong!");
-                MenuHome menuHome = new MenuHome();
-                menuHome.setVisible(true);
-                this.setVisible(false);
-            } else {
-                JOptionPane.showMessageDialog(null, "Sai tai khoan hoac mat khau!");
+        if (txtTenDangNhap.getText().isEmpty() || txtMatKhau.getText().isEmpty()) {
+
+            JOptionPane.showMessageDialog(null, "Mời bạn nhập đủ thông tin");
+        } else {
+
+            try {
+                Connect connect = new Connect();
+                Connection con = connect.getConnection();
+                PreparedStatement pst = con.prepareStatement("SELECT * from dangnhap where MaGV= ? and MatKhau= ?");
+                pst.setString(1, txtTenDangNhap.getText());
+                pst.setString(2, txtMatKhau.getText());
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "Dang nhap thanh cong!");
+                    MenuHome menuHome = new MenuHome();
+                    menuHome.setVisible(true);
+                    this.setVisible(false);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Sai tai khoan hoac mat khau!");
+                }
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, e);
             }
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-            JOptionPane.showMessageDialog(null, e);
         }
+
+
     }//GEN-LAST:event_btLoginActionPerformed
 
     /**
@@ -164,6 +181,7 @@ public class LoginView extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JTextField txtMatKhau;
     private javax.swing.JTextField txtTenDangNhap;
     // End of variables declaration//GEN-END:variables

@@ -22,6 +22,8 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
     /**
      * Creates new form DanhSachSinhVien
      */
+    String maSv = "";
+
     public DanhSachSinhVien() {
         initComponents();
         //
@@ -50,10 +52,11 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
                 listSV.add(sv);
             }
             System.out.println("sixe" + listSV.size());
-            //DefaultTableModel model = (DefaultTableModel) tbDanhSach.getModel();
-            DefaultTableModel model = new DefaultTableModel();
-            tbDanhSach.setModel(model);
-            tbDanhSach.removeAll();
+            DefaultTableModel model = (DefaultTableModel) tbDanhSach.getModel();
+            //DefaultTableModel model = new DefaultTableModel();
+
+//            tbDanhSach.removeAll();
+            model.setRowCount(0);
             Object[] row = new Object[9];
             System.out.println("sixe " + row.length);
             for (int i = 0; i < listSV.size(); i++) {
@@ -68,6 +71,7 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
                 row[8] = listSV.get(i).getMaLop();
                 model.addRow(row);
             }
+            //tbDanhSach.setModel(model);
             con.close();
         } catch (Exception e) {
             System.out.println(e);
@@ -89,8 +93,8 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         btTimKiem = new javax.swing.JButton();
         btTaoMoi = new javax.swing.JButton();
-        btXoaText = new javax.swing.JButton();
         btXoaSv = new javax.swing.JButton();
+        btXoa = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbDanhSach = new javax.swing.JTable();
@@ -120,26 +124,31 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
             }
         });
 
-        btXoaText.setText("Xoá text");
-        btXoaText.addActionListener(new java.awt.event.ActionListener() {
+        btXoaSv.setText("Xoá sinh viên");
+        btXoaSv.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btXoaTextActionPerformed(evt);
+                btXoaSvActionPerformed(evt);
             }
         });
 
-        btXoaSv.setText("Xoá sinh viên");
+        btXoa.setText("Tải lại");
+        btXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btXoaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(btXoaText, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btTimKiem, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btTaoMoi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
-                    .addComponent(btXoaSv, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btTimKiem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btTaoMoi, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+                    .addComponent(btXoaSv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btXoa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -151,8 +160,8 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
                 .addComponent(btTaoMoi, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btXoaSv, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btXoaText, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btXoa, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -171,6 +180,11 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
         ));
         tbDanhSach.setMinimumSize(new java.awt.Dimension(60, 100));
         tbDanhSach.setPreferredSize(new java.awt.Dimension(300, 100));
+        tbDanhSach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbDanhSachMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbDanhSach);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -186,8 +200,8 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(22, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(15, 15, 15))
         );
 
         jLabel2.setText("Nhập mã sinh viên");
@@ -247,52 +261,62 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
 
     private void btTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTimKiemActionPerformed
         // TODO add your handling code here:
-        try {
-            Connect connect = new Connect();
-            Connection con = connect.getConnection();
-            PreparedStatement pst = con.prepareStatement( "SELECT * FROM sinhvien WHERE MaSV = ? or TenSV like '%?%'");
-            pst.setString(1, txtMaSv.getText());
-            pst.setString(2, txtTenSv.getText());
-            List<SinhVien> listSV = new ArrayList<>();
-            ResultSet rs = pst.executeQuery();
-            while (rs.next()) {
 
-                SinhVien sv = new SinhVien();
-                sv.setMaSv(rs.getString("MaSV"));
-                sv.setHoTen(rs.getString("TenSV"));
-                sv.setCMND(rs.getString("CMND"));
-                sv.setSDT(rs.getString("SDT"));
-                sv.setDiaChi(rs.getString("DiaChi"));
-                sv.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
-                sv.setTenNganh(rs.getString("TenNganh"));
-                sv.setMaLop(rs.getString("MaLop"));
-                listSV.add(sv);
+        if (txtMaSv.getText().isEmpty() && txtTenSv.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Vui lòng nhập đủ thông tin!");
+
+        } else {
+
+            try {
+                Connect connect = new Connect();
+                Connection con = connect.getConnection();
+                PreparedStatement pst = con.prepareStatement("SELECT * FROM sinhvien WHERE MaSV = ? or TenSV like '%?%'");
+                pst.setString(1, txtMaSv.getText());
+                pst.setString(2, txtTenSv.getText());
+                List<SinhVien> listSV = new ArrayList<>();
+                ResultSet rs = pst.executeQuery();
+                while (rs.next()) {
+
+                    SinhVien sv = new SinhVien();
+                    sv.setMaSv(rs.getString("MaSV"));
+                    sv.setHoTen(rs.getString("TenSV"));
+                    sv.setCMND(rs.getString("CMND"));
+                    sv.setSDT(rs.getString("SDT"));
+                    sv.setDiaChi(rs.getString("DiaChi"));
+                    sv.setMaKhoaHoc(rs.getString("MaKhoaHoc"));
+                    sv.setTenNganh(rs.getString("TenNganh"));
+                    sv.setMaLop(rs.getString("MaLop"));
+                    listSV.add(sv);
+                }
+
+                // tbDanhSach.removeR(tbDanhSach.getColumnModel().getColumn(0));
+                tbDanhSach.removeAll();
+                DefaultTableModel model = (DefaultTableModel) tbDanhSach.getModel();
+
+                model.setRowCount(0);
+                Object[] row = new Object[9];
+                System.out.println("sixe " + listSV.size());
+                for (int i = 0; i < listSV.size(); i++) {
+                    row[0] = i + 1;
+                    row[1] = listSV.get(i).getMaSv();
+                    row[2] = listSV.get(i).getHoTen();
+                    row[3] = listSV.get(i).getCMND();
+                    row[4] = listSV.get(i).getSDT();
+                    row[5] = listSV.get(i).getDiaChi();
+                    row[6] = listSV.get(i).getMaKhoaHoc();
+                    row[7] = listSV.get(i).getTenNganh();
+                    row[8] = listSV.get(i).getMaLop();
+                    model.addRow(row);
+                }
+
+                System.out.println("view bang" + model.getColumnCount());
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, e);
             }
-            
-           // tbDanhSach.removeR(tbDanhSach.getColumnModel().getColumn(0));
-            DefaultTableModel model = (DefaultTableModel) tbDanhSach.getModel(); 
-            model .removeRow(0);
-            Object[] row = new Object[9];
-            System.out.println("sixe " + listSV.size());
-            for (int i = 0; i < listSV.size(); i++) {
-                row[0] = i + 1;
-                row[1] = listSV.get(i).getMaSv();
-                row[2] = listSV.get(i).getHoTen();
-                row[3] = listSV.get(i).getCMND();
-                row[4] = listSV.get(i).getSDT();
-                row[5] = listSV.get(i).getDiaChi();
-                row[6] = listSV.get(i).getMaKhoaHoc();
-                row[7] = listSV.get(i).getTenNganh();
-                row[8] = listSV.get(i).getMaLop();
-                model.addRow(row);
-            }
-          
-            System.out.println("view bang" + model.getColumnCount());
-            con.close();
-        } catch (Exception e) {
-            System.out.println(e);
-            JOptionPane.showMessageDialog(null, e);
         }
+
     }//GEN-LAST:event_btTimKiemActionPerformed
 
     private void btTaoMoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btTaoMoiActionPerformed
@@ -302,9 +326,47 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btTaoMoiActionPerformed
 
-    private void btXoaTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btXoaTextActionPerformed
+    private void tbDanhSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbDanhSachMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btXoaTextActionPerformed
+
+        int colum = tbDanhSach.getSelectedRow();
+        if (colum >= 0) {
+            maSv = (tbDanhSach.getValueAt(colum, 1).toString());
+            System.out.println("masv " + maSv + "");
+        }
+
+    }//GEN-LAST:event_tbDanhSachMouseClicked
+
+    private void btXoaSvActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btXoaSvActionPerformed
+
+        if (maSv.isEmpty()) {
+            
+             JOptionPane.showMessageDialog(null, "Mời bạn chọn sinh viên cần xoá");
+        } else {
+            try {
+                Connect connect = new Connect();
+                Connection con = connect.getConnection();
+                PreparedStatement pst = con.prepareStatement("DELETE FROM  sinhvien WHERE MaSV = ?");
+                pst.setString(1, maSv);
+                ResultSet rs = pst.executeQuery();
+
+                con.close();
+            } catch (Exception e) {
+                System.out.println(e);
+                JOptionPane.showMessageDialog(null, e);
+            }
+            maSv = "";
+            loadListDS();
+        }
+
+
+    }//GEN-LAST:event_btXoaSvActionPerformed
+
+    private void btXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btXoaActionPerformed
+        // TODO add your handling code here:
+        
+        loadListDS();
+    }//GEN-LAST:event_btXoaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -345,8 +407,8 @@ public class DanhSachSinhVien extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btTaoMoi;
     private javax.swing.JButton btTimKiem;
+    private javax.swing.JButton btXoa;
     private javax.swing.JButton btXoaSv;
-    private javax.swing.JButton btXoaText;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
